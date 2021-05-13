@@ -49,4 +49,13 @@ public static void endTest()
 report.endTest(test);
 report.flush();
 }
+
+
+
+public static void main(String[] args){
+    
 }
+
+
+}
+

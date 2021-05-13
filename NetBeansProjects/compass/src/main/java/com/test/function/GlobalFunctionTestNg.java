@@ -24,7 +24,18 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class GlobalFunctionTestNg {
 
-    public Boolean clickDesain(WebDriverWait wait) {
+    public Boolean getInfoCampaign(WebDriverWait wait) {
+        try {
+            WebElement clickMulaiDesain = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='gatsby-focus-wrapper']/div/div[2]/div/div/h1/div/span")));
+            String text = clickMulaiDesain.getText();
+            System.out.println(text);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+      public Boolean clickDesain(WebDriverWait wait) {
         try {
             WebElement clickMulaiDesain = wait.until(
                     ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(.,'Mulai Mendesain')]")));
@@ -34,6 +45,7 @@ public class GlobalFunctionTestNg {
             return false;
         }
     }
+    
 
     public Boolean clickInstagram(WebDriverWait wait) {
         try {
@@ -101,6 +113,17 @@ public class GlobalFunctionTestNg {
         try {
             WebElement clickbuttonClose = wait.until(
                     ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".custom-area .fal")));
+            sleepBeforeAnotherExecutions(5000);
+            clickbuttonClose.click();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+     public Boolean clickBuatKartuBca(WebDriverWait wait) {
+        try {
+            WebElement clickbuttonClose = wait.until(
+                    ExpectedConditions.visibilityOfElementLocated(By.linkText("Buat Kartu BCA")));
             sleepBeforeAnotherExecutions(5000);
             clickbuttonClose.click();
             return true;
@@ -369,9 +392,22 @@ public class GlobalFunctionTestNg {
     public Boolean pilihGazelleHi(WebDriverWait wait) {
         try{
         WebElement clickPilihGazzeleHi = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div:nth-child(3) .w-100")));
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div:nth-child(2) .w-100")));
         sleepBeforeAnotherExecutions(5000);
         clickPilihGazzeleHi.click();
+        return true;
+        }catch(Exception e){
+            return false;
+        }
+
+
+    }
+      public Boolean kembaliKeBeranda(WebDriverWait wait) {
+        try{
+        WebElement clickBeranda = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.linkText("kembali ke beranda")));
+        sleepBeforeAnotherExecutions(5000);
+        clickBeranda.click();
         return true;
         }catch(Exception e){
             return false;
@@ -395,7 +431,7 @@ public class GlobalFunctionTestNg {
     public Boolean pilihGazelleLow(WebDriverWait wait) {
         try{
         WebElement clickPilihGazzeleLow = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div:nth-child(2) .w-100")));
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div:nth-child(3) .w-100")));
         sleepBeforeAnotherExecutions(5000);
         clickPilihGazzeleLow.click();
         return true;
@@ -408,7 +444,7 @@ public class GlobalFunctionTestNg {
     public Boolean buttonSaveGambar(WebDriverWait wait) {
         try{
         WebElement clickPilihGazzeleLow = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("btn-save")));
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".btn:nth-child(5)")));
         sleepBeforeAnotherExecutions(5000);
         clickPilihGazzeleLow.click();
         return true;
@@ -418,6 +454,23 @@ public class GlobalFunctionTestNg {
 
 
     }
+    
+    public Boolean checkCaraIkutSerta(WebDriverWait wait) {
+        try{
+        WebElement clickPilihGazzeleLow = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".pb-main")));
+        sleepBeforeAnotherExecutions(5000);
+        clickPilihGazzeleLow.sendKeys("");
+        sleepBeforeAnotherExecutions(5000);
+        return true;
+        }catch(Exception e){
+            return false;
+        }
+
+
+    }
+   
+   
     public Boolean buttonClickInstagramLink(WebDriverWait wait) {
         try{
         WebElement clickPilihGazzeleLow = wait.until(

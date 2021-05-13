@@ -54,5 +54,10 @@
             <version>4.12</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>klov-reporter</artifactId>
+            <version>5.0.7</version>
+        </dependency>
     </dependencies>
 </project>

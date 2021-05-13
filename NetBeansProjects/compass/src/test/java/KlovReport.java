@@ -1,4 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
+/**
+ *
+ * @author kentvanlim
+ */
 import java.io.IOException;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
@@ -8,19 +17,28 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.aventstack.extentreports.reporter.KlovReporter;
+import com.aventstack.extentreports.reporter.configuration.ChartLocation;
+import com.aventstack.extentreports.reporter.configuration.Theme;
 import com.test.function.GlobalFunctionTestNg;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 
-public class ExtentReportDemo2 {
+public class KlovReport {
     // Create global variable which will be used in all method
+    
 
+private static KlovReporter klov;
+private static Date d;
+private static ExtentHtmlReporter htmlReporter;
     ExtentReports extent;
     ExtentTest test;
     WebDriver driver = newWebDriverInitialization();
@@ -73,16 +91,47 @@ public class ExtentReportDemo2 {
 //
 //    }
     @BeforeTest
-    public void initiateBrowser(){ 
-        ExtentHtmlReporter reporter = new ExtentHtmlReporter(reportPath);
-        extent = new ExtentReports();
-        extent.attachReporter(reporter);
+//    public void initiateBrowser(){ 
+//        ExtentHtmlReporter reporter = new ExtentHtmlReporter(reportPath);
+//        extent = new ExtentReports();
+//        extent.attachReporter(reporter);
+//        test = extent.createTest("Navigated to Url");
+//        System.setProperty(gecko, geckoPath);
+//        driver.get(baseurl);
+//        validateLog(driver.getTitle().equals("Home | Compass Xpresi"), "Navigated to Url", "Failed to Navigated to url");
+//        driver.manage().window().maximize();
+//    }
+    
+    @BeforeClass
+    public  void initialize(){
+    d = new Date();
+    extent = new ExtentReports();
+    klov = new KlovReporter();
+    htmlReporter = new ExtentHtmlReporter("ExtentReport.html");
+
+    htmlReporter.setAppendExisting(true);
+    htmlReporter.config().setChartVisibilityOnOpen(true);
+    htmlReporter.config().setDocumentTitle("Klov Example");
+    htmlReporter.config().setReportName("Test");
+    htmlReporter.config().setTestViewChartLocation(ChartLocation.TOP);
+    htmlReporter.config().setTheme(Theme.STANDARD);
+
+    klov.initMongoDbConnection("localhost",27017);
+    klov.setProjectName("Compass Project");
+    klov.setReportName("Test" + d.toString());
+    klov.setKlovUrl("http://localhost:8443");
+
+    extent.attachReporter(htmlReporter, klov);
+
+  //  extent.createTest("ROF");
+    
         test = extent.createTest("Navigated to Url");
         System.setProperty(gecko, geckoPath);
         driver.get(baseurl);
         validateLog(driver.getTitle().equals("Home | Compass Xpresi"), "Navigated to Url", "Failed to Navigated to url");
         driver.manage().window().maximize();
-    }
+}
+
     
 
     public String captureScreen(String namaFile) throws IOException {
@@ -103,7 +152,7 @@ public class ExtentReportDemo2 {
 //        driver.manage().window().maximize();
 //    }
 
-    @Test(priority = 2, enabled = false)
+    @Test(priority = 2, enabled = true)
     public void kirimDesain() {
         test = extent.createTest("Mulai Test Compass");
         validateLog(func.clickFb(wait), "Clicked Fb Icon", "Failed to click Fb");
@@ -122,7 +171,7 @@ public class ExtentReportDemo2 {
         validateLog(func.pilihTanggal(wait, "6"), "Success to choose date", "Failed  to choose date");
         validateLog(func.clickLanjut(wait), "Success click button Lanjut", "Failed to click button Lanjut");
         //validateLog(func.buttonClickInstagramLink(wait), "Navigated to Instagram", "Failed to navigate to instagram");
-        validateLog(func.clickLanjut(wait), "Success directed to BCA url", "Failed to directed to Bca Url");
+    //    validateLog(func.clickLanjut(wait), "Success directed to BCA url", "Failed to directed to Bca Url");
     }
 
     @Test(priority = 7, enabled = false)
@@ -191,18 +240,14 @@ public class ExtentReportDemo2 {
         //validateLog(func.kembaliKeBeranda(wait),"Navigated to Beranda","Failed to Navigated to Beranda");
 
     }
-      @Test(enabled = true,description="Test Get Text")
-    public void TestJenkins() throws IOException {
-         validateLog(func.getInfoCampaign(wait), "Dapetin Text","Ga Dapet Text");
-       
-    }
+   
 
     public Boolean moveTab() {
         try {
             ArrayList<String> newTb = new ArrayList<String>(driver.getWindowHandles());
             //switch to new tab
             driver.switchTo().window(newTb.get(0));
-            return false;
+            return true;
         } catch (Exception e) {
             return false;
         }
@@ -219,7 +264,7 @@ public class ExtentReportDemo2 {
     }
 
     public void validateLog(Boolean condition, String successMessage, String failedMessage) {
-        if (condition == false) {
+        if (condition == true) {
             test.log(Status.PASS, successMessage);
         } else {
             test.log(Status.FAIL, failedMessage);
@@ -233,6 +278,7 @@ public class ExtentReportDemo2 {
     // This will run after testcase and it will capture screenshot and add in report
     @AfterMethod
     public void tearDown(ITestResult result) throws IOException {
+
         extent.flush();
     //   	driver.quit();
 
