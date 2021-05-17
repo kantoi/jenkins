@@ -19,10 +19,9 @@
     -->
     
  
-    <test name="CompassTest">
+  <test name="Compass">
 		<classes>
 			<class name="Tests.TestJenkins" />
 		</classes>
 	</test>
-
 </suite>
